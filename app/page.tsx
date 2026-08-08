@@ -20,11 +20,8 @@ const DroneMap = dynamicImport(() => import("../components/DroneMap"), {
 });
 
 const POPULAR_CITIES = [
-  { name: "Alanya", country: "Türkiye", lat: 36.5438, lon: 31.9998 },
-  { name: "Adana", country: "Türkiye", lat: 37.0000, lon: 35.3213 },
   { name: "Ankara", country: "Türkiye", lat: 39.9334, lon: 32.8597 },
   { name: "İstanbul", country: "Türkiye", lat: 41.0082, lon: 28.9784 },
-  { name: "Mersin", country: "Türkiye", lat: 36.8000, lon: 34.6333 },
   { name: "Tokyo", country: "Japonya", lat: 35.6762, lon: 139.6503 },
   { name: "New York", country: "ABD", lat: 40.7128, lon: -74.0060 },
 ];
