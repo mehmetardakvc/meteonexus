@@ -1,13 +1,15 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Sun, Cloud, CloudRain, Calendar, Search, Loader2, Navigation, Clock, Activity, ShieldAlert, Droplets, Gauge, Cpu, Zap, Radio, TrendingUp, Bot, Sparkles, X } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import LoginButton from "@/components/LoginButton";
 
-const DroneMap = dynamic(() => import("../components/DroneMap"), {
+const DroneMap = dynamicImport(() => import("../components/DroneMap"), {
   ssr: false,
   loading: () => (
     <div className="h-96 w-full rounded-3xl bg-zinc-950 border border-cyan-500/20 flex flex-col items-center justify-center text-cyan-400 gap-3">
@@ -156,10 +158,8 @@ export default function Home() {
     : [];
 
   const nowHour = new Date().getHours();
-  // Gelecek gün seçiliyse öğlen 12'yi göster, değilse anlık saati göster
   const displayHourIndex = selectedDayIndex === 0 ? nowHour : startHourIndex + 12;
 
-  // ARTIK GÜNLÜK MAKSİMUM DEĞİL, ANLIK SAATLİK UV İNDEKSE BAKIYORUZ
   const currentUV = weather?.hourly?.uv_index?.[displayHourIndex] ?? 0;
   
   const currentAQI = airQuality?.current?.european_aqi ?? 0;
