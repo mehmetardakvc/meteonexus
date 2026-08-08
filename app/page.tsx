@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sun, Cloud, CloudRain, Calendar, Search, Loader2, Navigation, Clock, Activity, ShieldAlert, Droplets, Gauge, Zap, Radio, TrendingUp, Sparkles, X, MapPin } from "lucide-react";
+import { Sun, Cloud, CloudRain, Calendar, Search, Loader2, Navigation, Clock, Activity, ShieldAlert, Droplets, Gauge, Zap, Radio, TrendingUp, Sparkles, X, MapPin, ShieldCheck } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import dynamicImport from "next/dynamic";
 import LoginButton from "@/components/LoginButton";
@@ -233,8 +233,8 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-900 text-slate-200 p-4 md:p-8 font-sans selection:bg-sky-500/30 selection:text-sky-100">
-      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
+    <main className="min-h-screen bg-slate-900 text-slate-200 p-4 md:p-8 font-sans selection:bg-sky-500/30 selection:text-sky-100 flex flex-col justify-between">
+      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8 w-full mb-10">
         
         <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-6 relative border-b border-slate-800">
           <div className="flex items-center gap-4">
@@ -561,6 +561,20 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* FOOTER - KVKK & GİZLİLİK NOTU EKLENDİ */}
+      <footer className="w-full max-w-6xl mx-auto border-t border-slate-800 pt-6 mt-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© {new Date().getFullYear()} MeteoNexus. Tüm hakları saklıdır.</p>
+          <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-2 rounded-lg border border-slate-700/50">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            <span className="font-medium">
+              Gizlilik Politikası: <span className="font-normal text-slate-400">Platforma kayıt olan kullanıcıların e-posta ve IP adresleri, yalnızca hesap güvenliği, kullanıcı doğrulama ve hizmet kalitesini artırma amacıyla KVKK standartlarına uygun olarak saklanmakta olup, üçüncü şahıslarla kesinlikle paylaşılmaz.</span>
+            </span>
+          </div>
+        </div>
+      </footer>
+
     </main>
   );
 }
