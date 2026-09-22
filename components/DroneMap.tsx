@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Circle, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { AlertTriangle, ShieldCheck, Crosshair, Radar } from "lucide-react";
@@ -32,6 +33,13 @@ const NO_FLY_ZONES: Record<string, { name: string; lat: number; lon: number; rad
 };
 
 export default function DroneMap({ lat, lon, cityName, windSpeed }: DroneMapProps) {
+  // Haritanın Next.js SSR'da çökmemesi için yükleme kontrolü
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const cityNameKey = cityName.toLowerCase().trim();
   const cityZones = NO_FLY_ZONES[cityNameKey] || [
     {
@@ -44,6 +52,15 @@ export default function DroneMap({ lat, lon, cityName, windSpeed }: DroneMapProp
   ];
 
   const isWindSafe = windSpeed < 20;
+
+  // Harita yüklenene kadar gösterilecek havalı radar ekranı
+  if (!isMounted) {
+    return (
+      <div className="w-full h-[450px] bg-zinc-900/50 animate-pulse rounded-3xl border border-cyan-500/30 flex items-center justify-center">
+        <Radar className="w-8 h-8 animate-spin text-cyan-500/50" />
+      </div>
+    );
+  }
 
   return (
     <div className="relative bg-zinc-950/80 border border-cyan-500/30 backdrop-blur-xl rounded-3xl p-6 lg:p-8 space-y-6 shadow-[0_0_40px_rgba(6,182,212,0.15)] overflow-hidden">
@@ -78,17 +95,18 @@ export default function DroneMap({ lat, lon, cityName, windSpeed }: DroneMapProp
         </div>
       </div>
 
-      <div className="h-96 w-full rounded-2xl overflow-hidden border border-zinc-800 relative z-0 shadow-inner">
+      <div className="h-[450px] w-full rounded-2xl overflow-hidden border border-zinc-800 relative z-0 shadow-inner">
         <MapContainer
           key={`${lat}-${lon}`}
           center={[lat, lon]}
           zoom={11}
           scrollWheelZoom={false}
-          className="h-full w-full"
+          style={{ height: '100%', width: '100%', zIndex: 0 }} 
         >
+          {/* MAPBOX KOYU TEMA - Şifreni access_token= kısmından sonraya yapıştır */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.mapbox.com/">Mapbox</a>'
+            url="https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWVobWV0YXJkYWt2YyIsImEiOiJjbXVkMXUzeHIyM2xrMndzN2E4NXNjMG02In0.zZRQdjZjhbGAOu6ZFBcLrw"
           />
 
           {cityZones.map((zone, idx) => (
